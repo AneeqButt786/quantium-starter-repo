@@ -100,14 +100,57 @@ Built with Dash, the analytics app empowers Quantium and Soul Foods teams to int
 
 - **Python 3.x**
 - **Core packages:** 
-  - `dash`
-  - `pandas`
-  - `plotly`
+  - `dash[testing]` — Web framework with testing utilities
+  - `pandas` — Data processing and manipulation
+  - `plotly` — Interactive charting library
+  - `pytest` — Testing framework
 
 #### Development Approach
 
 - Cohesive, self-contained codebase for rapid onboarding and extension.
 - Data is loaded once at startup; all real-time interactivity handled via Dash callbacks.
+
+---
+
+## 3. Test Suite (`test_app.py`)
+
+### Overview
+
+The repository includes a comprehensive test suite using `pytest` and Dash's testing framework to ensure the dashboard components are correctly implemented and functional.
+
+### Test Coverage
+
+The test suite verifies three critical UI components:
+
+1. **Header/Title Presence** — Confirms the main title "Pink Morsel Sales Analysis" is rendered correctly.
+2. **Line Chart Visualization** — Validates that the sales chart component is present and properly configured.
+3. **Region Picker** — Ensures the radio button filter is functional with all expected options (All, North, East, South, West) and correct default selection.
+
+### Running Tests
+
+To execute the test suite:
+
+```bash
+pytest test_app.py -v
+```
+
+For more detailed output:
+
+```bash
+pytest test_app.py -v --tb=short
+```
+
+### Expected Results
+
+All tests should pass, confirming:
+- ✅ Header component is present with correct text
+- ✅ Chart visualization is rendered
+- ✅ Region filter is functional with all options
+
+### Test Configuration
+
+- `pytest.ini` — Configuration file that suppresses third-party deprecation warnings for cleaner test output.
+- Tests use unit testing approach to verify component structure without requiring browser automation.
 
 ---
 
@@ -118,6 +161,12 @@ Built with Dash, the analytics app empowers Quantium and Soul Foods teams to int
 
 - `app.py`  
   Provides an interactive web dashboard for Pink Morsel sales trends and region-level analysis.
+
+- `test_app.py`  
+  Automated test suite verifying all dashboard UI components are correctly rendered.
+
+- `pytest.ini`  
+  Pytest configuration file for test execution settings.
 
 - `requirements.txt`  
   Lists all required Python packages for local installation.

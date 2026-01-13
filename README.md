@@ -5,7 +5,7 @@ I created a virtual environment to ensure a secure and efficient workflow while 
 
 ## Project Overview
 
-This project involves combining multiple CSV files containing sales data into a single formatted output file for analysis.
+This project involves combining multiple CSV files containing sales data into a single formatted output file for analysis, and then visualizing the data using a Dash web application to answer business questions about sales trends.
 
 ## Data Combination Script
 
@@ -66,3 +66,51 @@ The script is organized into modular functions:
 - Standard library modules: `csv`, `os`, `pathlib`
 
 No external dependencies are required - the script uses only Python's built-in libraries.
+
+## Sales Data Visualizer (Dash App)
+
+### Description
+
+The `app.py` script creates an interactive web application using Dash to visualize sales data over time. The app helps answer the business question: **"Were sales higher before or after the Pink Morsel price increase on January 15th, 2021?"**
+
+### Features
+
+- Interactive line chart showing total sales over time
+- Data aggregated by date (sums all sales for each day)
+- Visual marker indicating the price increase date (January 15, 2021)
+- Clean, professional interface with appropriate axis labels
+- Responsive design with hover tooltips
+
+### Usage
+
+1. Install required dependencies:
+
+```bash
+pip install -r requirements.txt
+```
+
+2. Ensure the `combined_sales_data.csv` file exists (run `combinig_dataset.py` first if needed)
+
+3. Run the Dash application:
+
+```bash
+python app.py
+```
+
+4. Open your web browser and navigate to the URL shown in the terminal (typically `http://127.0.0.1:8050`)
+
+### Code Structure
+
+The app is organized into simple, modular functions:
+- `load_sales_data()`: Reads and processes the CSV file, groups sales by date
+- `create_line_chart()`: Creates the Plotly line chart with price increase marker
+- `create_app()`: Configures the Dash app layout and components
+- `main()`: Entry point that runs the application
+
+### Requirements
+
+- Python 3.x
+- External packages (install via `requirements.txt`):
+  - `dash`: Web framework for building the application
+  - `pandas`: Data processing and manipulation
+  - `plotly`: Interactive charting library

@@ -11,10 +11,12 @@ This repository is engineered to provide:
 - **Automated Data Consolidation:** Extraction, cleaning, and unification of all Pink Morsel transactions from disparate daily sales reports.
 - **Interactive Data Exploration:** A responsive dashboard enabling granular region-based sales analysis and clear visualization of business-impacting events (such as price changes).
 
-The workflow is organized into two core modules:
+The workflow is organized into four core modules:
 
 1. **Data Preparation Script** — Aggregates and standardizes product sales data.
 2. **Sales Analysis Dashboard** — Presents user-friendly, dynamic sales insights.
+3. **Test Suite** — Automated tests ensuring code quality and component functionality.
+4. **CI/CD Integration** — Automated testing pipeline for continuous integration.
 
 ---
 
@@ -154,7 +156,94 @@ All tests should pass, confirming:
 
 ---
 
+## 4. CI/CD Test Runner (`run_tests.sh`)
+
+### Overview
+
+The repository includes a bash script designed for automated testing in CI/CD pipelines. The script handles virtual environment activation, dependency installation, and test execution with proper exit codes.
+
+### Features
+
+- **Automatic Virtual Environment Detection** — Finds and activates `.venv`, `venv`, or `env` directories
+- **Cross-Platform Support** — Works on Unix/Linux, macOS, and Windows (via Git Bash/WSL)
+- **Dependency Management** — Automatically installs dependencies from `requirements.txt` if needed
+- **Proper Exit Codes** — Returns `0` on success, `1` on failure (CI-compatible)
+- **Fail-Fast Behavior** — Stops immediately on errors using `set -e` and `set -o pipefail`
+
+### Usage
+
+#### Local Execution
+
+Run the script directly:
+
+```bash
+./run_tests.sh
+```
+
+Or with bash:
+
+```bash
+bash run_tests.sh
+```
+
+#### CI/CD Integration
+
+The script is designed to work seamlessly with CI platforms:
+
+**GitHub Actions** (already configured in `.github/workflows/test.yml`):
+```yaml
+- name: Run tests
+  run: |
+    chmod +x run_tests.sh
+    ./run_tests.sh
+```
+
+**GitLab CI**:
+```yaml
+test:
+  script:
+    - chmod +x run_tests.sh
+    - ./run_tests.sh
+```
+
+### Script Behavior
+
+1. **Environment Setup** — Detects Python installation and activates virtual environment if available
+2. **Dependency Check** — Verifies pytest is installed, installs from `requirements.txt` if missing
+3. **Test Execution** — Runs `pytest test_app.py -v --tb=short`
+4. **Result Reporting** — Provides colored output and clear success/failure messages
+5. **Exit Status** — Returns appropriate exit code for CI pipeline integration
+
+### Requirements
+
+- Bash shell (available on Unix/Linux, macOS, Git Bash, WSL)
+- Python 3.x installed
+- Virtual environment (optional, but recommended)
+
+---
+
 ## Repository Contents
+
+- `combinig_dataset.py`  
+  Consolidates, filters, and standardizes source sales data. Outputs `combined_sales_data.csv`.
+
+- `app.py`  
+  Provides an interactive web dashboard for Pink Morsel sales trends and region-level analysis.
+
+- `test_app.py`  
+  Automated test suite verifying all dashboard UI components are correctly rendered.
+
+- `run_tests.sh`  
+  Bash script for CI/CD pipelines to automatically run the test suite with proper environment setup.
+
+- `pytest.ini`  
+  Pytest configuration file for test execution settings.
+
+- `requirements.txt`  
+  Lists all required Python packages for local installation.
+
+- `.github/workflows/test.yml`  
+  GitHub Actions workflow configuration for automated testing on push and pull requests.
 
 - `combinig_dataset.py`  
   Consolidates, filters, and standardizes source sales data. Outputs `combined_sales_data.csv`.

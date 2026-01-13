@@ -1,116 +1,133 @@
-# Quantium Starter Repository
+# Quantium Starter Analytics Repository
 
-This repository contains my solutions for Task 1, which focuses on data analysis using Python.
-I created a virtual environment to ensure a secure and efficient workflow while completing the task professionally.
+Welcome to the Quantium Starter Repository — an end-to-end, professional data solution for analyzing and visualizing sales trends of the Pink Morsel product for Soul Foods. This project streamlines sales data preparation and delivers actionable insights through a high-quality analytical dashboard, leveraging robust Python technologies.
 
-## Project Overview
+---
 
-This project involves combining multiple CSV files containing sales data into a single formatted output file for analysis, and then visualizing the data using a Dash web application to answer business questions about sales trends.
+## Solution Architecture
 
-## Data Combination Script
+This repository is engineered to provide:
 
-### Description
+- **Automated Data Consolidation:** Extraction, cleaning, and unification of all Pink Morsel transactions from disparate daily sales reports.
+- **Interactive Data Exploration:** A responsive dashboard enabling granular region-based sales analysis and clear visualization of business-impacting events (such as price changes).
 
-The `combinig_dataset.py` script processes three daily sales data CSV files and combines them into a single output file with three fields:
-- **Sales**: Calculated as price × quantity for each record
-- **Date**: The transaction date
-- **Region**: The sales region (north, south, east, west)
+The workflow is organized into two core modules:
 
-### Features
+1. **Data Preparation Script** — Aggregates and standardizes product sales data.
+2. **Sales Analysis Dashboard** — Presents user-friendly, dynamic sales insights.
 
-- Reads and processes multiple CSV files automatically
-- Calculates total sales by multiplying price and quantity
-- Handles price strings with dollar signs (e.g., "$3.00")
-- Combines all records into a single output file
-- Includes error handling for missing files
-- Provides progress feedback during execution
+---
 
-### Usage
+## 1. Data Preparation with `combinig_dataset.py`
 
-1. Ensure you have Python 3.x installed
-2. Navigate to the repository directory
-3. Run the script:
+### Overview
+
+The `combinig_dataset.py` script is designed to efficiently process all sales data files in the `data/` directory, focusing exclusively on the "pink morsel" product. It creates a unified dataset that is optimized for downstream analysis and visualization.
+
+#### Key Attributes
+
+- **Targeted Extraction:** Isolates sales entries for "pink morsel" only.
+- **Data Consistency:** Converts and consolidates price and quantity data, ensuring numeric integrity.
+- **Standard Output:** Produces a single `combined_sales_data.csv` file with columns:
+  - `sales` – transaction value (numeric, calculated)
+  - `date` – transaction date
+  - `region` – transaction region (North, South, East, West)
+
+#### How it Works
+
+- Iterates over all `.csv` files in the `data/` directory.
+- Selects records for the "pink morsel" product.
+- Multiplies price (converted from string with `$`) and quantity to compute sales.
+- Writes results to a clean, analysis-ready CSV.
+
+#### Usage
+
+To generate your analytics-ready dataset, run:
 
 ```bash
 python combinig_dataset.py
 ```
 
-### Input Files
+Sample structure of the resulting file:
 
-The script processes the following input files located in the `data/` directory:
-- `daily_sales_data_0.csv`
-- `daily_sales_data_1.csv`
-- `daily_sales_data_2.csv`
+| sales  | date       | region |
+|--------|------------|--------|
+| 1638.0 | 2018-02-06 | north  |
+| 1647.0 | 2018-02-06 | south  |
+|   ...  |    ...     |  ...   |
 
-### Output
+#### Technical Specifications
 
-The script generates `combined_sales_data.csv` in the root directory with the following structure:
+- **Language/Dependencies:** Pure Python (standard library `csv`, `os` only).
+- **Input Format:** Source files must include: `product`, `price`, `quantity`, `date`, `region`.
+- **Output:** `combined_sales_data.csv` in the repository root.
 
-| Sales | Date | Region |
-|-------|------|--------|
-| 1638.0 | 2018-02-06 | north |
-| 1647.0 | 2018-02-06 | south |
-| ... | ... | ... |
+---
 
-### Code Structure
+## 2. Interactive Sales Dashboard (`app.py`)
 
-The script is organized into modular functions:
-- `parse_price()`: Converts price strings to numeric values
-- `calculate_sales()`: Computes total sales (price × quantity)
-- `combine_csv_files()`: Main function that processes and combines all CSV files
-- `main()`: Entry point that defines input/output files and executes the combination
+### Business Context
 
-### Requirements
+Built with Dash, the analytics app empowers Quantium and Soul Foods teams to interactively explore Pink Morsel sales performance, with a special focus on the impact of pricing decisions.
 
-- Python 3.x
-- Standard library modules: `csv`, `os`, `pathlib`
+#### Central Analysis Question
 
-No external dependencies are required - the script uses only Python's built-in libraries.
+> **Did Pink Morsel sales increase or decrease after the price adjustment on January 15, 2021?**
 
-## Sales Data Visualizer (Dash App)
+### Dashboard Features
 
-### Description
+- **Time-Series Visualization:** Dynamic line chart showing daily sales.
+- **Advanced Region Filtering:** Instantly segment data by region (All, North, South, East, West).
+- **Event Highlighting:** Visually distinguishes sales before and after the price increase with shaded backgrounds.
+- **Modern UI/UX:** Stylish, accessible interface with responsive layout and intuitive controls.
+- **Insightful Hover Interactions:** Tooltips expose granular details for data-driven decision making.
 
-The `app.py` script creates an interactive web application using Dash to visualize sales data over time. The app helps answer the business question: **"Were sales higher before or after the Pink Morsel price increase on January 15th, 2021?"**
+#### How to Launch
 
-### Features
+1. Install necessary Python packages:
+   ```bash
+   pip install -r requirements.txt
+   ```
 
-- Interactive line chart showing total sales over time
-- Data aggregated by date (sums all sales for each day)
-- Visual marker indicating the price increase date (January 15, 2021)
-- Clean, professional interface with appropriate axis labels
-- Responsive design with hover tooltips
+2. Ensure `combined_sales_data.csv` is present.
+3. Start the app:
+   ```bash
+   python app.py
+   ```
+4. Open your browser to [http://127.0.0.1:8050](http://127.0.0.1:8050).
 
-### Usage
+#### Requirements
 
-1. Install required dependencies:
+- **Python 3.x**
+- **Core packages:** 
+  - `dash`
+  - `pandas`
+  - `plotly`
 
-```bash
-pip install -r requirements.txt
-```
+#### Development Approach
 
-2. Ensure the `combined_sales_data.csv` file exists (run `combinig_dataset.py` first if needed)
+- Cohesive, self-contained codebase for rapid onboarding and extension.
+- Data is loaded once at startup; all real-time interactivity handled via Dash callbacks.
 
-3. Run the Dash application:
+---
 
-```bash
-python app.py
-```
+## Repository Contents
 
-4. Open your web browser and navigate to the URL shown in the terminal (typically `http://127.0.0.1:8050`)
+- `combinig_dataset.py`  
+  Consolidates, filters, and standardizes source sales data. Outputs `combined_sales_data.csv`.
 
-### Code Structure
+- `app.py`  
+  Provides an interactive web dashboard for Pink Morsel sales trends and region-level analysis.
 
-The app is organized into simple, modular functions:
-- `load_sales_data()`: Reads and processes the CSV file, groups sales by date
-- `create_line_chart()`: Creates the Plotly line chart with price increase marker
-- `create_app()`: Configures the Dash app layout and components
-- `main()`: Entry point that runs the application
+- `requirements.txt`  
+  Lists all required Python packages for local installation.
 
-### Requirements
+---
 
-- Python 3.x
-- External packages (install via `requirements.txt`):
-  - `dash`: Web framework for building the application
-  - `pandas`: Data processing and manipulation
-  - `plotly`: Interactive charting library
+> **Quantium best practice:**  
+> - Code, filenames, and outputs follow clear naming conventions.
+> - All processing and visualization is focused on the Pink Morsel product for maximum business relevance.
+> - The repository is structured for transparency, reliability, and ease of audit or further development.
+
+For further queries or to contribute improvements, please contact the Quantium data science team.
+
